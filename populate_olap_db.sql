@@ -10,6 +10,13 @@ INSERT INTO c##dw_olap.produto (
              c##dw_oltp.modelo mo
         JOIN c##dw_oltp.marca ma USING ( id_marca );
 
+-- Populate cliente
+INSERT INTO c##dw_olap.cliente ( estado_civil )
+    SELECT DISTINCT
+        oltp_cl.estado_civil
+    FROM
+        c##dw_oltp.cliente oltp_cl;
+
 -- Populate local
 INSERT INTO c##dw_olap.local (
     estado,
@@ -54,8 +61,8 @@ INSERT INTO c##dw_olap.venda (
         JOIN c##dw_oltp.compra   oltp_co ON ( oltp_ca.id_compra = oltp_co.id_compra )
         JOIN c##dw_olap.tempo    olap_te ON ( EXTRACT(YEAR FROM oltp_co.data) = olap_te.ano
                                            AND c##dw_olap.get_quarter(oltp_co.data) = olap_te.quadrimestre )
-        JOIN c##dw_olap.cliente  olap_cl ON ( oltp_co.id_cliente = olap_cl.id_cliente )
         JOIN c##dw_oltp.cliente  oltp_cl ON ( oltp_co.id_cliente = oltp_cl.id_cliente )
+        JOIN c##dw_olap.cliente  olap_cl ON ( oltp_cl.estado_civil = olap_cl.estado_civil )
         JOIN c##dw_oltp.cidade   oltp_ci ON ( oltp_cl.id_cidade = oltp_ci.id_cidade )
         JOIN c##dw_oltp.estado   oltp_es ON ( oltp_ci.id_estado = oltp_es.id_estado )
         JOIN c##dw_olap.local    olap_lo ON ( olap_lo.cidade = oltp_ci.descricao

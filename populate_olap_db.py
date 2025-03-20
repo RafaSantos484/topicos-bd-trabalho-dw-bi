@@ -1,12 +1,8 @@
-import json
 import getpass
 import oracledb
 import pandas as pd
 
-
-def load_json(filename: str):
-    with open(filename, "r", encoding="utf-8") as file:
-        return json.load(file)
+import populate_marital_statuses
 
 
 def run_sql_script(cursor: oracledb.Cursor, script_path: str):
@@ -58,18 +54,7 @@ def populate_olap_db(connection: oracledb.Connection) -> None:
     run_sql_script(cursor, "fix_cidades_duplicadas.sql")
     run_sql_script(cursor, "fix_nomeclatura_sexo.sql")
 
-    clients_complementar_data = load_json("Clientes_Dados_Complementar.json")
-    clients: list[dict] = clients_complementar_data["Cliente"]
-    cursor.executemany(
-        """
-        INSERT INTO c##dw_olap.cliente (
-            id_cliente,
-            estado_civil
-        ) VALUES ( :1, :2 )
-        """,
-        [(client["ID"], client["Estado_civil"]) for client in clients]
-    )
-    print("Populated 'clientes' table from Clientes_Dados_Complementar.json")
+    populate_marital_statuses.run(cursor)
 
     run_sql_script(cursor, "populate_olap_db.sql")
 
