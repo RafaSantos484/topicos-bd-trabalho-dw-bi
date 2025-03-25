@@ -1,11 +1,11 @@
 --------------------------------------------------------
---  Arquivo criado - quinta-feira-março-13-2025   
+--  Arquivo criado - terça-feira-março-25-2025   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Sequence CLIENTE_SEQ
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "C##DW_OLAP"."CLIENTE_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+   CREATE SEQUENCE  "C##DW_OLAP"."CLIENTE_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
 --------------------------------------------------------
 --  DDL for Sequence CONCORRENTE_SEQ
 --------------------------------------------------------
@@ -30,7 +30,7 @@
 --  DDL for Sequence VENDA_SEQ
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "C##DW_OLAP"."VENDA_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 8301 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+   CREATE SEQUENCE  "C##DW_OLAP"."VENDA_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 7941 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
 --------------------------------------------------------
 --  DDL for Table CLIENTE
 --------------------------------------------------------
@@ -464,9 +464,9 @@ BEGIN
     v_month := extract(MONTH FROM p_date);
     v_quarter := '1';
     IF v_month BETWEEN 5 AND 8 THEN
-        v_quarter := '1';
-    ELSIF v_month BETWEEN 9 AND 12 THEN
         v_quarter := '2';
+    ELSIF v_month BETWEEN 9 AND 12 THEN
+        v_quarter := '3';
     END IF;
 
     RETURN v_quarter;
